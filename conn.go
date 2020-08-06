@@ -113,6 +113,8 @@ func (c *Conn) handle(cmd string, arg string) {
 
 	cmd = strings.ToUpper(cmd)
 	switch cmd {
+	case "XCLIENT":
+		c.WriteResponse(250, EnhancedCode{5, 5, 1}, fmt.Sprintf("%v ok", cmd))
 	case "SEND", "SOML", "SAML", "EXPN", "HELP", "TURN":
 		// These commands are not implemented in any state
 		c.WriteResponse(502, EnhancedCode{5, 5, 1}, fmt.Sprintf("%v command not implemented", cmd))
