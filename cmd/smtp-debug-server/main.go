@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/emersion/go-smtp"
+	"github.com/aminamid/go-smtp"
 )
 
 var addr string
