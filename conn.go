@@ -909,6 +909,11 @@ func (c *Conn) handleDataLMTP() {
 	}
 }
 
+func getRand() int {
+	rand.Seed(time.Now().UnixNano())
+	return rand.Intn(1000)
+}
+
 func toSMTPStatus(err error) (code int, enchCode EnhancedCode, msg string) {
 	if err != nil {
 		if smtperr, ok := err.(*SMTPError); ok {
@@ -916,6 +921,12 @@ func toSMTPStatus(err error) (code int, enchCode EnhancedCode, msg string) {
 		} else {
 			return 554, EnhancedCode{5, 0, 0}, "Error: transaction failed, blame it on the weather: " + err.Error()
 		}
+	}
+	switch n := getRand(); n {
+	case n < 100:
+		return 591, EnhancedCode{2, 0, 0}, "OK: spam"
+	case n > 990:
+		return 592, EnhancedCode{2, 0, 0}, "OK: virus"
 	}
 
 	return 250, EnhancedCode{2, 0, 0}, "OK: queued"
